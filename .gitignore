@@ -136,3 +136,10 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# Personal scratch/practice files, not part of the assessment submission
+scratch/
+commands.txt
+
+# Ruff
+.ruff_cache/
