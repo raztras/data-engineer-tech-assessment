@@ -1,6 +1,4 @@
 -- Task 1, Stage 2: daily average Active Power Reliability, per site.
--- capacity_mw is converted to kW (x 1000) to match the units of
--- active_power / setpoint.
 
 select
     m.site_id,

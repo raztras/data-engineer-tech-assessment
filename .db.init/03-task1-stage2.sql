@@ -16,11 +16,6 @@ insert into site_capacities (site_id, capacity_mw) values
     (1, 100),
     (2, 50);
 
--- 96 rows: two sites, one day each (2026-07-01) at 30-minute intervals.
--- Site 1 setpoint held at 20000 kW, site 2 at 10000 kW. Both sites use the
--- exact same absolute deviation pattern (500-1500 kW), so any difference in
--- reliability between the two sites comes purely from their different
--- capacities, not from different underlying data.
 insert into multi_site_measurements ("timestamp", site_id, active_power, setpoint) values
     ('2026-07-01 00:00:00', 1, 20500, 20000),
     ('2026-07-01 00:30:00', 1, 19200, 20000),

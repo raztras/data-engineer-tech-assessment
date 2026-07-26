@@ -6,10 +6,6 @@ create table measurements (
     setpoint numeric not null
 );
 
--- 48 rows covering one day (2026-07-01) at 30-minute intervals, matching
--- the real reporting interval described in TASK_1.md. Setpoint is held
--- constant at 20000 kW; active_power cycles through a repeating pattern
--- of deviations (500-1500 kW), alternating over and under the setpoint.
 insert into measurements ("timestamp", active_power, setpoint) values
     ('2026-07-01 00:00:00', 20500, 20000),
     ('2026-07-01 00:30:00', 19200, 20000),
