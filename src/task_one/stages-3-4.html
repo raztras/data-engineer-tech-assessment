@@ -1,0 +1,965 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Task 1 · Stages 3 &amp; 4 — Statera Energy Assessment</title>
+<style>
+:root{
+  --bg:#0B1015;
+  --bg-2:#0F1720;
+  --surface:#151E28;
+  --surface-2:#1B2733;
+  --border:#243342;
+  --border-bright:#31465a;
+  --text:#E6EDF3;
+  --text-dim:#9DB0C2;
+  --text-faint:#6B8299;
+  --accent:#35D6A4;
+  --accent-dim:#1d7a5e;
+  --blue:#4EA8FF;
+  --amber:#F5A623;
+  --red:#FF6B6B;
+  --bronze:#CD7F32;
+  --silver:#B8C4CE;
+  --gold:#E8B93B;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,"Cascadia Mono",Menlo,Consolas,monospace;
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:var(--sans);font-size:16px;line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:920px;margin:0 auto;padding:0 24px}
+
+/* ---------- header ---------- */
+header{
+  border-bottom:1px solid var(--border);
+  background:linear-gradient(180deg,#0F1720 0%,var(--bg) 100%);
+  padding:38px 0 0;
+}
+.brand{display:flex;align-items:center;gap:11px;margin-bottom:22px}
+.brand-mark{
+  width:26px;height:26px;flex:none;border-radius:6px;
+  background:linear-gradient(135deg,var(--accent),#1a9c74);
+  display:grid;place-items:center;
+}
+.brand-mark svg{width:15px;height:15px;display:block}
+.brand-name{font-weight:650;letter-spacing:-.01em;font-size:15px}
+.brand-name span{color:var(--text-faint);font-weight:450}
+h1{font-size:clamp(26px,4vw,34px);line-height:1.2;margin:0 0 10px;letter-spacing:-.02em;font-weight:660}
+.subtitle{color:var(--text-dim);margin:0 0 26px;max-width:60ch;font-size:16.5px}
+
+/* ---------- tabs ---------- */
+.tabs{display:flex;gap:2px}
+.tab{
+  appearance:none;border:0;background:none;cursor:pointer;
+  font:inherit;font-size:14.5px;font-weight:550;color:var(--text-faint);
+  padding:11px 18px;border-bottom:2px solid transparent;
+  transition:color .15s,border-color .15s;
+}
+.tab:hover{color:var(--text-dim)}
+.tab[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+.tab:focus-visible{outline:2px solid var(--blue);outline-offset:-2px;border-radius:4px}
+
+/* ---------- content ---------- */
+main{padding:44px 0 90px}
+.panel[hidden]{display:none}
+h2{
+  font-size:13px;text-transform:uppercase;letter-spacing:.1em;font-weight:660;
+  color:var(--accent);margin:52px 0 14px;
+}
+h2:first-child{margin-top:0}
+h3{font-size:18px;margin:34px 0 10px;font-weight:620;letter-spacing:-.01em}
+p{margin:0 0 16px;color:#D3DEE8}
+strong{color:#fff;font-weight:620}
+em{color:var(--text);font-style:italic}
+ul{margin:0 0 16px;padding-left:22px;color:#D3DEE8}
+li{margin-bottom:9px}
+li::marker{color:var(--accent-dim)}
+code{
+  font-family:var(--mono);font-size:.875em;
+  background:var(--surface-2);border:1px solid var(--border);
+  padding:.1em .38em;border-radius:4px;color:#B7E9D5;white-space:nowrap;
+}
+pre{
+  background:var(--bg-2);border:1px solid var(--border);border-left:2px solid var(--accent-dim);
+  border-radius:8px;padding:16px 18px;overflow-x:auto;margin:0 0 20px;
+}
+pre code{background:none;border:0;padding:0;color:#CFE3F0;white-space:pre;font-size:13.5px;line-height:1.6}
+.kw{color:#7FD1FF}.typ{color:#F0B86E}.cmt{color:#5F7385;font-style:italic}
+
+/* ---------- callout ---------- */
+.callout{
+  display:flex;gap:13px;background:var(--surface);
+  border:1px solid var(--border);border-left:2px solid var(--amber);
+  border-radius:8px;padding:15px 17px;margin:0 0 22px;
+}
+.callout.good{border-left-color:var(--accent)}
+.callout[hidden]{display:none}
+.callout-icon{flex:none;width:18px;height:18px;margin-top:2px}
+.callout p{margin:0;font-size:15px}
+.callout p+p{margin-top:9px}
+
+/* ---------- tables ---------- */
+.table-scroll{overflow-x:auto;margin:0 0 22px;border:1px solid var(--border);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:440px}
+th,td{padding:10px 15px;text-align:left;border-bottom:1px solid var(--border)}
+th{
+  background:var(--surface);font-weight:600;color:var(--text-dim);
+  font-size:11.5px;text-transform:uppercase;letter-spacing:.07em;white-space:nowrap;
+}
+tbody tr:last-child td{border-bottom:0}
+td{font-family:var(--mono);font-size:13px;color:#CBDAE6}
+td.lbl{font-family:var(--sans);font-size:14px;color:var(--text-dim);font-weight:550}
+
+/* ---------- figure / diagram ---------- */
+figure{margin:0 0 26px}
+.diagram{
+  background:var(--bg-2);border:1px solid var(--border);border-radius:10px;
+  padding:22px 18px;overflow-x:auto;
+}
+.diagram svg{display:block;margin:0 auto;max-width:100%;height:auto}
+figcaption{
+  color:var(--text-faint);font-size:13px;margin-top:11px;text-align:center;
+}
+.d-box{fill:var(--surface-2);stroke:var(--border-bright)}
+.d-label{fill:var(--text);font-family:var(--sans);font-size:13px;font-weight:600}
+.d-sub{fill:var(--text-faint);font-family:var(--mono);font-size:11px}
+.d-arrow{stroke:var(--border-bright);stroke-width:1.5;fill:none}
+.d-note{fill:var(--text-dim);font-family:var(--sans);font-size:11.5px;font-style:italic}
+
+/* ---------- interactive widget shell ---------- */
+.widget{
+  background:var(--surface);border:1px solid var(--border-bright);
+  border-radius:12px;margin:0 0 26px;overflow:hidden;
+}
+.widget-head{
+  padding:14px 20px;border-bottom:1px solid var(--border);
+  background:linear-gradient(180deg,var(--surface-2),var(--surface));
+  display:flex;align-items:center;gap:9px;
+}
+.widget-head .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);flex:none}
+.widget-title{font-size:13px;font-weight:640;letter-spacing:.03em;text-transform:uppercase;color:var(--text-dim)}
+.widget-body{padding:20px}
+.controls{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-end;margin-bottom:20px}
+.ctl{flex:1 1 190px;min-width:170px}
+.ctl label{
+  display:block;font-size:11.5px;text-transform:uppercase;letter-spacing:.07em;
+  color:var(--text-faint);font-weight:620;margin-bottom:7px;
+}
+select{
+  width:100%;font:inherit;font-size:14px;font-family:var(--mono);
+  background:var(--bg-2);color:var(--text);border:1px solid var(--border-bright);
+  border-radius:7px;padding:8px 11px;cursor:pointer;
+}
+select:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+input[type=range]{
+  width:100%;accent-color:var(--accent);cursor:pointer;margin:0;height:22px;
+}
+.slider-readout{
+  font-family:var(--mono);font-size:19px;font-weight:600;color:var(--accent);
+  margin-bottom:2px;letter-spacing:-.01em;
+}
+.ctl label.switch{
+  display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none;
+  text-transform:none;letter-spacing:normal;font-weight:450;margin-bottom:0;
+  font-size:13.5px;color:var(--text-dim);
+}
+.switch input{width:16px;height:16px;accent-color:var(--amber);cursor:pointer;margin:0;flex:none}
+.switch span{font-size:13.5px;color:var(--text-dim)}
+
+/* capacity row cards */
+.cap-rows{display:grid;gap:10px;margin-bottom:18px}
+.cap-row{
+  border:1px solid var(--border);border-radius:9px;padding:13px 15px;
+  background:var(--bg-2);display:flex;flex-wrap:wrap;gap:6px 20px;align-items:center;
+  transition:border-color .18s,background .18s,opacity .18s;opacity:.42;
+}
+.cap-row.matched{opacity:1;border-color:var(--accent);background:rgba(53,214,164,.07)}
+.cap-row.matched.old{border-color:var(--amber);background:rgba(245,166,35,.07)}
+.cap-val{font-family:var(--mono);font-size:16px;font-weight:640;color:var(--text)}
+.cap-row.matched .cap-val{color:var(--accent)}
+.cap-row.matched.old .cap-val{color:var(--amber)}
+.cap-window{font-family:var(--mono);font-size:12px;color:var(--text-faint);flex:1 1 auto}
+.cap-tag{
+  font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;
+  padding:3px 9px;border-radius:99px;border:1px solid currentColor;
+}
+.cap-row.matched .cap-tag{color:var(--accent)}
+.cap-row.matched.old .cap-tag{color:var(--amber)}
+.cap-row:not(.matched) .cap-tag{display:none}
+
+/* result readout */
+.results{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.stat{background:var(--bg-2);border:1px solid var(--border);border-radius:9px;padding:13px 15px}
+.stat-label{
+  font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;
+  color:var(--text-faint);font-weight:640;margin-bottom:6px;
+}
+.stat-value{font-family:var(--mono);font-size:21px;font-weight:640;letter-spacing:-.02em;color:var(--text)}
+.stat-value.ok{color:var(--accent)}
+.stat-value.warn{color:var(--amber)}
+.stat-value.bad{color:var(--red)}
+.stat-note{font-size:11.5px;color:var(--text-faint);margin-top:5px;font-family:var(--sans)}
+
+/* partition grid */
+.part-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));
+  gap:7px;margin-bottom:20px;
+}
+.part{
+  border:1px solid var(--border);border-radius:6px;background:var(--bg-2);
+  padding:9px 6px;text-align:center;transition:all .18s;
+}
+.part-label{font-family:var(--mono);font-size:11px;color:var(--text-faint);display:block}
+.part-size{font-family:var(--mono);font-size:10px;color:var(--text-faint);opacity:.65;display:block;margin-top:3px}
+.part.scanned{border-color:var(--accent);background:rgba(53,214,164,.13)}
+.part.scanned .part-label{color:var(--accent);font-weight:640}
+.part.pruned{opacity:.3}
+.part.forced{border-color:var(--red);background:rgba(255,107,107,.11)}
+.part.forced .part-label{color:var(--red);font-weight:640}
+
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:16px;font-size:12.5px;color:var(--text-faint)}
+.legend-item{display:flex;align-items:center;gap:7px}
+.legend-chip{width:12px;height:12px;border-radius:3px;border:1px solid var(--border);flex:none}
+.legend-chip.scanned{border-color:var(--accent);background:rgba(53,214,164,.25)}
+.legend-chip.pruned{opacity:.3;background:var(--bg-2)}
+
+footer{border-top:1px solid var(--border);padding:26px 0;color:var(--text-faint);font-size:13px}
+footer p{color:var(--text-faint);margin:0;font-size:13px}
+
+@media (max-width:560px){
+  .wrap{padding:0 18px}
+  .widget-body{padding:16px}
+  .tab{padding:10px 13px;font-size:13.5px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" fill="#08131024" stroke="#0B1015" stroke-width="2" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="brand-name">Statera Energy <span>· Data Engineer Assessment</span></div>
+    </div>
+    <h1>Task 1 — Capacity History &amp; Scaling</h1>
+    <p class="subtitle">
+      Design notes for Stages 3 and 4: keeping reliability calculations correct when site
+      capacity changes over time, and keeping them fast as telemetry grows.
+    </p>
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" id="tab-3" aria-controls="panel-3" aria-selected="true">Stage 3 · Capacity Changes</button>
+      <button class="tab" role="tab" id="tab-4" aria-controls="panel-4" aria-selected="false">Stage 4 · Scaling</button>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+
+<!-- ================= STAGE 3 ================= -->
+<section class="panel" id="panel-3" role="tabpanel" aria-labelledby="tab-3">
+
+  <h2>The problem with the existing configuration</h2>
+  <p>
+    <code>site_capacities</code> currently stores one row per site: a single, current
+    <code>capacity_mw</code>. If a site is augmented (its MW capacity increased), overwriting
+    that row would silently apply the <em>new</em> capacity to <em>historical</em> measurements
+    too, corrupting every past reliability calculation for that site.
+  </p>
+
+  <h2>Data model change</h2>
+  <p>
+    Make <code>site_capacities</code> effective-dated instead of "current state only" — this
+    is the standard slowly-changing-dimension (SCD Type 2) pattern, and a natural fit here
+    since augmentations are rare (as per the task, "no more than once every couple of years"):
+  </p>
+
+<pre><code><span class="kw">create table</span> site_capacities (
+    site_id         <span class="typ">integer</span>   <span class="kw">not null</span>,
+    capacity_mw     <span class="typ">numeric</span>   <span class="kw">not null</span>,
+    effective_from  <span class="typ">timestamp</span> <span class="kw">not null</span>,
+    effective_to    <span class="typ">timestamp</span>,            <span class="cmt">-- null = currently in effect</span>
+    <span class="kw">primary key</span> (site_id, effective_from)
+);</code></pre>
+
+  <p>
+    Each row represents one capacity value and the window of time it was valid for. A site
+    with no augmentations has exactly one row (<code>effective_to</code> null). When a site
+    is augmented:
+  </p>
+  <ul>
+    <li>Update the existing "current" row: set its <code>effective_to</code> to the moment the augmentation took effect.</li>
+    <li>Insert a new row for the new capacity, with <code>effective_from</code> set to that same moment and <code>effective_to</code> left <code>null</code>.</li>
+  </ul>
+  <p>This preserves every historical capacity value intact and auditable, rather than a complete overwrite.</p>
+
+  <div class="callout">
+    <svg class="callout-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <circle cx="10" cy="10" r="8.25" stroke="#F5A623" stroke-width="1.5"/>
+      <path d="M10 5.75v5" stroke="#F5A623" stroke-width="1.75" stroke-linecap="round"/>
+      <circle cx="10" cy="13.9" r="1.05" fill="#F5A623"/>
+    </svg>
+    <div>
+      <p>
+        <strong>One risk worth flagging:</strong> closing out the old row and opening the new
+        one are two separate statements. If someone only runs one of them, or runs them in the
+        wrong order, we'd end up with two capacity values overlapping in time — and that would
+        silently corrupt the reliability numbers for that period, which is exactly the bug
+        we're trying to fix in the first place.
+      </p>
+    </div>
+  </div>
+
+  <p>
+    Given how rare and deliberate this change is — the task says once every couple of years at
+    most — I don't think this needs heavyweight database machinery to solve. The simplest fix
+    is to stop letting anyone write to <code>site_capacities</code> directly, and instead put
+    both steps behind a <strong>single stored procedure</strong>: given a site, its new
+    capacity, and the date it takes effect, the procedure closes out that site's currently
+    active row and opens the new one in a single atomic operation. That becomes the only
+    sanctioned way to record a capacity change.
+  </p>
+
+  <figure>
+    <div class="diagram">
+      <svg viewBox="0 0 660 300" role="img" aria-label="Flow diagram: a single stored procedure call performs both the update and insert inside one transaction, producing a site_capacities table that retains history.">
+        <!-- input -->
+        <rect class="d-box" x="150" y="10" width="360" height="46" rx="9"/>
+        <text class="d-label" x="330" y="30" text-anchor="middle">add_site_capacity(site_id, new_mw, effective_from)</text>
+        <text class="d-sub" x="330" y="46" text-anchor="middle">the only sanctioned write path</text>
+        <path class="d-arrow" d="M330 56 L330 84" marker-end="url(#ah)"/>
+
+        <!-- transaction box -->
+        <rect x="60" y="86" width="540" height="132" rx="11" fill="rgba(53,214,164,.05)" stroke="#35D6A4" stroke-width="1.3" stroke-dasharray="6 4"/>
+        <text x="76" y="106" class="d-sub" fill="#35D6A4" style="font-weight:700;letter-spacing:.08em">SINGLE TRANSACTION — BOTH OR NEITHER</text>
+
+        <rect class="d-box" x="82" y="120" width="228" height="80" rx="9"/>
+        <circle cx="104" cy="144" r="10" fill="#F5A623" opacity=".18"/>
+        <text x="104" y="148" text-anchor="middle" style="fill:#F5A623;font-family:var(--mono);font-size:11px;font-weight:700">1</text>
+        <text class="d-label" x="122" y="148">UPDATE current row</text>
+        <text class="d-sub" x="98" y="170">set effective_to =</text>
+        <text class="d-sub" x="98" y="186">    effective_from</text>
+
+        <rect class="d-box" x="350" y="120" width="228" height="80" rx="9"/>
+        <circle cx="372" cy="144" r="10" fill="#35D6A4" opacity=".18"/>
+        <text x="372" y="148" text-anchor="middle" style="fill:#35D6A4;font-family:var(--mono);font-size:11px;font-weight:700">2</text>
+        <text class="d-label" x="390" y="148">INSERT new row</text>
+        <text class="d-sub" x="366" y="170">capacity_mw = new_mw</text>
+        <text class="d-sub" x="366" y="186">effective_to = null</text>
+
+        <path class="d-arrow" d="M310 160 L344 160" marker-end="url(#ah)"/>
+        <path class="d-arrow" d="M330 218 L330 246" marker-end="url(#ah)"/>
+
+        <!-- outcome -->
+        <rect class="d-box" x="150" y="248" width="360" height="44" rx="9" stroke="#35D6A4"/>
+        <text class="d-label" x="330" y="268" text-anchor="middle">site_capacities — no gaps, no overlaps</text>
+        <text class="d-sub" x="330" y="284" text-anchor="middle">full history preserved and auditable</text>
+
+        <defs>
+          <marker id="ah" markerWidth="9" markerHeight="9" refX="7.5" refY="3" orient="auto">
+            <path d="M0 0 L7.5 3 L0 6 z" fill="#31465a"/>
+          </marker>
+        </defs>
+      </svg>
+    </div>
+    <figcaption>The write path — one call, one transaction, no partially-applied state.</figcaption>
+  </figure>
+
+  <h2>Query logic change</h2>
+  <p>
+    The Stage 2 query joined <code>multi_site_measurements</code> to <code>site_capacities</code>
+    on <code>site_id</code> alone — a straightforward equality join, since each site only ever
+    had one capacity value to match against.
+  </p>
+  <p>
+    With capacity now effective-dated, the join needs a second condition: not just "same site"
+    but "this measurement's timestamp falls within this capacity row's validity window." In
+    practice that means adding a range check against
+    <code>effective_from</code>/<code>effective_to</code> alongside the existing
+    <code>site_id</code> match, so each measurement gets matched to exactly one capacity row —
+    whichever one was in effect at that exact moment — rather than potentially matching several
+    historical rows for the same site.
+  </p>
+  <p>
+    This is sometimes called a <strong>temporal</strong> or <strong>"as-of" join</strong>:
+    instead of joining on equality, you're joining on "which version of this record was active
+    at this point in time." Everything downstream of the join — the <code>abs()</code>
+    deviation calculation, the daily <code>avg()</code>, the <code>group by</code> — stays
+    exactly the same as Stage 2. Only the join condition changes.
+  </p>
+
+  <figure>
+    <div class="diagram">
+      <svg viewBox="0 0 660 168" role="img" aria-label="Flow diagram: a measurement row is matched by site id, then by whether its timestamp falls inside a capacity validity window, yielding exactly one capacity row used for the reliability calculation.">
+        <rect class="d-box" x="8" y="52" width="128" height="62" rx="9"/>
+        <text class="d-label" x="72" y="78" text-anchor="middle">measurement</text>
+        <text class="d-sub" x="72" y="96" text-anchor="middle">ts, site_id, kW</text>
+
+        <path class="d-arrow" d="M136 83 L172 83" marker-end="url(#ah2)"/>
+
+        <rect class="d-box" x="174" y="52" width="140" height="62" rx="9"/>
+        <text class="d-label" x="244" y="72" text-anchor="middle">match site_id</text>
+        <text class="d-sub" x="244" y="90" text-anchor="middle">equality</text>
+        <text class="d-sub" x="244" y="104" text-anchor="middle" fill="#6B8299">(as in Stage 2)</text>
+
+        <path class="d-arrow" d="M314 83 L350 83" marker-end="url(#ah2)"/>
+
+        <rect class="d-box" x="352" y="42" width="160" height="82" rx="9" stroke="#4EA8FF"/>
+        <text class="d-label" x="432" y="64" text-anchor="middle" fill="#4EA8FF">ts within window?</text>
+        <text class="d-sub" x="432" y="84" text-anchor="middle">ts &gt;= effective_from</text>
+        <text class="d-sub" x="432" y="100" text-anchor="middle">ts &lt; effective_to</text>
+        <text class="d-sub" x="432" y="114" text-anchor="middle" fill="#6B8299">(or effective_to is null)</text>
+
+        <path class="d-arrow" d="M512 83 L548 83" marker-end="url(#ah2)"/>
+
+        <rect class="d-box" x="550" y="52" width="104" height="62" rx="9" stroke="#35D6A4"/>
+        <text class="d-label" x="602" y="78" text-anchor="middle" fill="#35D6A4">exactly one</text>
+        <text class="d-sub" x="602" y="96" text-anchor="middle">capacity row</text>
+
+        <text class="d-note" x="432" y="24" text-anchor="middle">the only new condition</text>
+        <path class="d-arrow" d="M432 30 L432 40" stroke="#4EA8FF" stroke-dasharray="3 3"/>
+
+        <defs>
+          <marker id="ah2" markerWidth="9" markerHeight="9" refX="7.5" refY="3" orient="auto">
+            <path d="M0 0 L7.5 3 L0 6 z" fill="#31465a"/>
+          </marker>
+        </defs>
+      </svg>
+    </div>
+    <figcaption>The read path — an equality join becomes a temporal ("as-of") join.</figcaption>
+  </figure>
+
+  <h2>Why this handles the edge cases correctly</h2>
+  <ul>
+    <li><strong>Mid-day augmentation:</strong> each measurement joins to whichever capacity was valid at its own timestamp, so the daily average naturally blends both capacities in proportion — no special-casing needed.</li>
+    <li><strong>Backfilling:</strong> a one-time migration — set <code>effective_from</code> to each site's data start date and <code>effective_to</code> to <code>null</code>.</li>
+  </ul>
+
+  <p>
+    <strong>Example:</strong> site 1 is augmented from 100 MW to 120 MW at 14:00 on 2028-03-01.
+    <code>site_capacities</code> now has two rows for that site — drag the slider below to step
+    through that day and watch which row each measurement matches.
+  </p>
+
+  <!-- ---------- INTERACTIVE 1 ---------- -->
+  <div class="widget">
+    <div class="widget-head">
+      <span class="dot"></span>
+      <span class="widget-title">Temporal join explorer · 2028-03-01</span>
+    </div>
+    <div class="widget-body">
+      <div class="controls">
+        <div class="ctl" style="flex:1 1 100%">
+          <label for="hour">Measurement timestamp</label>
+          <div class="slider-readout" id="ts-readout">2028-03-01 08:00:00</div>
+          <input type="range" id="hour" min="0" max="23" value="8" step="1"
+                 aria-describedby="ts-readout">
+        </div>
+      </div>
+
+      <div class="cap-rows" id="cap-rows">
+        <div class="cap-row old" data-cap="100">
+          <span class="cap-val">100 MW</span>
+          <span class="cap-window">2020-01-01 00:00 &rarr; 2028-03-01 14:00</span>
+          <span class="cap-tag">matched</span>
+        </div>
+        <div class="cap-row" data-cap="120">
+          <span class="cap-val">120 MW</span>
+          <span class="cap-window">2028-03-01 14:00 &rarr; null (current)</span>
+          <span class="cap-tag">matched</span>
+        </div>
+      </div>
+
+      <div class="results">
+        <div class="stat">
+          <div class="stat-label">Deviation</div>
+          <div class="stat-value" id="s-dev">500</div>
+          <div class="stat-note">|active − setpoint| kW</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Capacity used</div>
+          <div class="stat-value ok" id="s-cap">100 MW</div>
+          <div class="stat-note" id="s-cap-note">valid at this timestamp</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Reliability &mdash; correct</div>
+          <div class="stat-value ok" id="s-good">0.9950</div>
+          <div class="stat-note">effective-dated join</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Reliability &mdash; overwritten</div>
+          <div class="stat-value bad" id="s-bad">0.9958</div>
+          <div class="stat-note" id="s-bad-note">if we'd overwritten the row</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout good">
+    <svg class="callout-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <circle cx="10" cy="10" r="8.25" stroke="#35D6A4" stroke-width="1.5"/>
+      <path d="M6.4 10.2l2.4 2.4 4.8-5" stroke="#35D6A4" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <div>
+      <p>
+        The morning readings are scored against 100 MW, the afternoon readings against 120 MW,
+        and the daily <code>avg()</code> blends both automatically. The fourth tile shows what
+        the same reading would have scored had we simply overwritten the capacity row — the
+        per-reading error is small, but it applies to <em>every historical measurement for that
+        site</em>, silently and permanently.
+      </p>
+    </div>
+  </div>
+
+</section>
+
+<!-- ================= STAGE 4 ================= -->
+<section class="panel" id="panel-4" role="tabpanel" aria-labelledby="tab-4" hidden>
+
+  <h2>The problem</h2>
+  <p>
+    Years of history, tens of sites, higher-frequency readings, more metrics per reading. A
+    plain query against the raw table now scans a large and growing amount of data for even a
+    simple question — the query pattern hasn't changed, but the data behind it has.
+  </p>
+  <p>
+    The recommendations below are written with Statera's actual stack in mind —
+    <strong>Snowflake</strong> and <strong>Databricks</strong> — rather than generic or
+    hypothetical tooling.
+  </p>
+
+  <h2>Cluster the data by time and site</h2>
+  <p>
+    Snowflake doesn't need manual partitioning the way a traditional database does — it
+    automatically breaks tables into <strong>micro-partitions</strong> and tracks min/max
+    metadata per column on each one. As long as data loads roughly in time order (which
+    telemetry naturally does), a query filtering by date range already skips most irrelevant
+    partitions with no setup required.
+  </p>
+  <p>
+    At this scale it's worth being deliberate about it anyway: defining an explicit clustering
+    key on <code>(site_id, timestamp)</code> — the two columns nearly every query filters or
+    groups by — keeps Snowflake actively maintaining partition layout around that access
+    pattern as new data lands, rather than relying purely on load order. That costs ongoing
+    background compute (re-clustering credits), which is worth it here because the access
+    pattern is consistent and the table is large enough for pruning to actually matter.
+  </p>
+  <p>
+    One trap to watch for: the min/max metadata is held against the <em>raw</em> column, so
+    wrapping the timestamp in a function inside a <code>WHERE</code> clause stops Snowflake
+    matching the filter to that metadata and it falls back to scanning everything. The query
+    still returns the right answer — it just costs far more to get it. Keep filters as plain
+    range comparisons on the raw column, and save the transformations for
+    <code>SELECT</code>/<code>GROUP BY</code>. Toggle it below to see the effect.
+  </p>
+
+  <!-- ---------- INTERACTIVE 2 ---------- -->
+  <div class="widget">
+    <div class="widget-head">
+      <span class="dot"></span>
+      <span class="widget-title">Partition pruning · 24 months of telemetry</span>
+    </div>
+    <div class="widget-body">
+      <div class="controls">
+        <div class="ctl">
+          <label for="from-m">Filter from</label>
+          <select id="from-m"></select>
+        </div>
+        <div class="ctl">
+          <label for="to-m">Filter to</label>
+          <select id="to-m"></select>
+        </div>
+        <div class="ctl" style="flex:1 1 100%">
+          <label class="switch">
+            <input type="checkbox" id="trap">
+            <span>Wrap the filter in <code>date_trunc('day', "timestamp")</code></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="legend">
+        <span class="legend-item"><span class="legend-chip scanned"></span> scanned</span>
+        <span class="legend-item"><span class="legend-chip pruned"></span> pruned (skipped)</span>
+      </div>
+
+      <div class="part-grid" id="parts" aria-live="polite"></div>
+
+      <div class="results">
+        <div class="stat">
+          <div class="stat-label">Partitions scanned</div>
+          <div class="stat-value ok" id="p-count">2 / 24</div>
+          <div class="stat-note" id="p-pct">92% pruned</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Data scanned</div>
+          <div class="stat-value ok" id="p-bytes">0.47 GB</div>
+          <div class="stat-note" id="p-total">of 5.04 GB total</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Relative cost</div>
+          <div class="stat-value ok" id="p-cost">0.08&times;</div>
+          <div class="stat-note">vs. scanning everything</div>
+        </div>
+      </div>
+
+      <div class="callout" id="trap-note" style="margin:18px 0 0" hidden>
+        <svg class="callout-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <circle cx="10" cy="10" r="8.25" stroke="#FF6B6B" stroke-width="1.5"/>
+          <path d="M10 5.75v5" stroke="#FF6B6B" stroke-width="1.75" stroke-linecap="round"/>
+          <circle cx="10" cy="13.9" r="1.05" fill="#FF6B6B"/>
+        </svg>
+        <div>
+          <p>
+            <strong>Pruning defeated</strong> — every partition is now scanned to answer the
+            same question, costing <strong id="trap-mult">12&times;</strong> more than the
+            pruned equivalent.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Precompute the aggregates people actually query</h2>
+  <p>
+    Dashboards want daily/hourly trends, not raw readings. Define those rollups as
+    <strong>Snowflake Dynamic Tables</strong> (or materialized views) — declarative,
+    incrementally refreshed as new base data arrives — so a dashboard query hits a small
+    pre-summarized table instead of aggregating raw telemetry every time. Heavier
+    transformation logic that's impractical in plain SQL can live in Databricks instead,
+    writing its output back into Snowflake as the same kind of rollup table.
+  </p>
+  <p>
+    On the Databricks side, that work naturally follows a <strong>medallion architecture</strong>,
+    implemented as a <strong>Delta Live Tables</strong> pipeline:
+  </p>
+
+  <figure>
+    <div class="diagram">
+      <svg viewBox="0 0 660 400" role="img" aria-label="Pipeline diagram: telemetry from site controllers lands raw in Snowflake. Snowflake Streams tells a Delta Live Tables pipeline on Databricks which rows changed; that pipeline transforms Bronze to Silver to Gold. The curated Gold output is written back to Snowflake as the serving layer, which feeds BI and dashboards.">
+        <!-- row 1: ingestion -->
+        <rect class="d-box" x="60" y="10" width="140" height="52" rx="9"/>
+        <text class="d-label" x="130" y="34" text-anchor="middle">Site controllers</text>
+        <text class="d-sub" x="130" y="50" text-anchor="middle">telemetry</text>
+
+        <path class="d-arrow" d="M200 36 L231 36" marker-end="url(#ah3)"/>
+
+        <rect class="d-box" x="235" y="10" width="190" height="52" rx="9" stroke="#4EA8FF"/>
+        <text class="d-label" x="330" y="32" text-anchor="middle" fill="#4EA8FF">Snowflake</text>
+        <text class="d-sub" x="330" y="49" text-anchor="middle">raw telemetry landing</text>
+
+        <!-- streams edge -->
+        <path class="d-arrow" d="M330 62 L330 106" stroke="#35D6A4" stroke-dasharray="5 4" marker-end="url(#ah4)"/>
+        <text class="d-note" x="346" y="88" fill="#35D6A4">Snowflake Streams — only the rows that changed</text>
+
+        <!-- row 2: DLT -->
+        <rect x="60" y="110" width="540" height="112" rx="11" fill="rgba(78,168,255,.04)" stroke="#4EA8FF" stroke-width="1.2" stroke-dasharray="6 4"/>
+        <text x="76" y="130" class="d-sub" fill="#4EA8FF" style="font-weight:700;letter-spacing:.08em">DELTA LIVE TABLES · DATABRICKS</text>
+
+        <rect class="d-box" x="82" y="140" width="150" height="68" rx="9" stroke="#CD7F32"/>
+        <text class="d-label" x="157" y="166" text-anchor="middle" fill="#CD7F32">Bronze</text>
+        <text class="d-sub" x="157" y="185" text-anchor="middle">ingested as-is</text>
+        <text class="d-sub" x="157" y="199" text-anchor="middle">no transformation</text>
+
+        <path class="d-arrow" d="M232 174 L250 174" marker-end="url(#ah3)"/>
+
+        <rect class="d-box" x="252" y="140" width="150" height="68" rx="9" stroke="#B8C4CE"/>
+        <text class="d-label" x="327" y="166" text-anchor="middle" fill="#B8C4CE">Silver</text>
+        <text class="d-sub" x="327" y="185" text-anchor="middle">cleaned, typed</text>
+        <text class="d-sub" x="327" y="199" text-anchor="middle">DQ expectations</text>
+
+        <path class="d-arrow" d="M402 174 L420 174" marker-end="url(#ah3)"/>
+
+        <rect class="d-box" x="422" y="140" width="156" height="68" rx="9" stroke="#E8B93B"/>
+        <text class="d-label" x="500" y="166" text-anchor="middle" fill="#E8B93B">Gold</text>
+        <text class="d-sub" x="500" y="185" text-anchor="middle">daily rollups</text>
+        <text class="d-sub" x="500" y="199" text-anchor="middle">reliability</text>
+
+        <path class="d-arrow" d="M330 222 L330 254" marker-end="url(#ah3)"/>
+
+        <!-- row 3: serving -->
+        <rect class="d-box" x="235" y="258" width="190" height="52" rx="9" stroke="#4EA8FF"/>
+        <text class="d-label" x="330" y="280" text-anchor="middle" fill="#4EA8FF">Snowflake</text>
+        <text class="d-sub" x="330" y="297" text-anchor="middle">curated · serving layer</text>
+
+        <path class="d-arrow" d="M330 310 L330 342" marker-end="url(#ah3)"/>
+
+        <rect class="d-box" x="255" y="346" width="150" height="48" rx="9"/>
+        <text class="d-label" x="330" y="368" text-anchor="middle" style="font-size:12px">BI · dashboards</text>
+        <text class="d-sub" x="330" y="384" text-anchor="middle">analysts</text>
+
+        <defs>
+          <marker id="ah3" markerWidth="9" markerHeight="9" refX="7.5" refY="3" orient="auto">
+            <path d="M0 0 L7.5 3 L0 6 z" fill="#31465a"/>
+          </marker>
+          <marker id="ah4" markerWidth="9" markerHeight="9" refX="7.5" refY="3" orient="auto">
+            <path d="M0 0 L7.5 3 L0 6 z" fill="#35D6A4"/>
+          </marker>
+        </defs>
+      </svg>
+    </div>
+    <figcaption>Snowflake lands the raw telemetry; DLT transforms it and writes the curated result back.</figcaption>
+  </figure>
+
+  <p>
+    Raw telemetry lands in Snowflake first. DLT ingests it as-is into a <strong>Bronze</strong>
+    layer, cleans and conforms it (deduplicated, typed, joined against site metadata) into a
+    <strong>Silver</strong> layer — with DLT's built-in data quality "expectations" catching bad
+    rows before they propagate — and computes the daily/hourly reliability rollups as a
+    <strong>Gold</strong> layer, which is written back into Snowflake as the curated serving
+    layer. DLT manages the dependency graph between these layers automatically, so a change
+    upstream correctly triggers recomputation downstream without the pipeline order having to
+    be hand-wired. Each layer still acts as a checkpoint: if a rollup turns out wrong, it can
+    be recomputed from Silver without re-ingesting or re-cleaning raw telemetry from scratch.
+  </p>
+  <p>
+    Because the raw landing table lives in Snowflake, feeding this pipeline incrementally is a
+    change-tracking problem rather than a full-reprocessing one:
+    <strong>Snowflake Streams</strong> on that landing table tells DLT exactly which rows have
+    arrived or changed since the last run, and DLT's own incremental processing model (built on
+    Structured Streaming under the hood) means each run only touches that new data instead of
+    an expensive full reprocess.
+  </p>
+  <p>
+    If the rollups ever need to be fresher than a scheduled run allows, the same DLT pipeline
+    can run in <strong>continuous mode</strong> instead of triggered mode — reading new data as
+    it lands and keeping Snowflake up to date continuously rather than on a fixed interval.
+    Daily reliability rollups don't need that though; triggered/scheduled is the simpler,
+    cheaper default, and continuous mode is only worth reaching for if a future requirement
+    genuinely needs sub-hour freshness.
+  </p>
+
+  <h2>Size compute independently of storage</h2>
+  <p>
+    Snowflake separates storage from compute, so recent vs. historical doesn't need two
+    different databases — it can mean two differently-sized virtual warehouses pointing at the
+    same underlying tables:
+  </p>
+
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr><th></th><th>Recent / operational</th><th>Historical / analytical</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="lbl">Storage</td>
+          <td>Snowflake</td>
+          <td>Snowflake</td>
+        </tr>
+        <tr>
+          <td class="lbl">Optimized for</td>
+          <td>Low-latency via a small/always-on warehouse</td>
+          <td>Cheap bulk scans via a larger, on-demand warehouse</td>
+        </tr>
+        <tr>
+          <td class="lbl">Compute</td>
+          <td>Snowflake (small warehouse)</td>
+          <td>Databricks (transform) &rarr; Snowflake (serve/query)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    A small warehouse serving frequent, low-latency queries against recent data costs
+    relatively little to keep running. A much larger warehouse for infrequent historical bulk
+    scans only needs to spin up on demand and auto-suspend when idle, so it isn't costing
+    anything the rest of the time. Same underlying data throughout — the split is in how
+    compute is provisioned against it, not in where the data physically lives.
+  </p>
+
+  <h2>Rethink the schema as more metrics get added</h2>
+  <p>
+    Avoid both extremes: endless new columns (mostly-null once not every site reports every
+    metric) and a fully generic key-value metrics table (flexible, but every query becomes a
+    pivot/join). Keep fixed columns for the metrics every site always reports, and only add a
+    column once a new metric proves genuinely universal — not the moment it first appears
+    anywhere.
+  </p>
+
+
+</section>
+
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Task 1 · Stages 3 &amp; 4 — design notes. Figures are illustrative; sample values are synthetic.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------------- tabs ---------------- */
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  function selectTab(tab){
+    tabs.forEach(function(t){
+      var on = t === tab;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    });
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){ selectTab(t); });
+    t.addEventListener('keydown', function(e){
+      var i = tabs.indexOf(t);
+      if(e.key === 'ArrowRight'){ e.preventDefault(); tabs[(i+1)%tabs.length].focus(); }
+      if(e.key === 'ArrowLeft'){ e.preventDefault(); tabs[(i-1+tabs.length)%tabs.length].focus(); }
+    });
+  });
+
+  /* ---------------- Stage 3: temporal join explorer ---------------- */
+  // Synthetic readings for 2028-03-01. Augmentation lands at 14:00.
+  // Pairs are [setpoint, active_power] in kW.
+  var READINGS = [
+    [98000,98200],[98200,97900],[98400,98850],[98100,98000],
+    [98600,99050],[98800,98500],[99000,99600],[98500,98300],
+    [98000,98500],[98700,98400],[99100,99500],[99300,99050],
+    [99000,99200],[99200,98900],
+    [117000,117600],[118500,118100],[119000,118000],[118200,118900],
+    [117800,117300],[118400,119050],[118000,117500],[117600,118000],
+    [118100,117550],[117900,118400]
+  ];
+  var AUG_HOUR = 14, OLD_MW = 100, NEW_MW = 120;
+
+  var hourEl   = document.getElementById('hour');
+  var tsEl     = document.getElementById('ts-readout');
+  var rowEls   = Array.prototype.slice.call(document.querySelectorAll('#cap-rows .cap-row'));
+  var devEl    = document.getElementById('s-dev');
+  var capEl    = document.getElementById('s-cap');
+  var capNote  = document.getElementById('s-cap-note');
+  var goodEl   = document.getElementById('s-good');
+  var badEl    = document.getElementById('s-bad');
+  var badNote  = document.getElementById('s-bad-note');
+
+  function pad(n){ return (n < 10 ? '0' : '') + n; }
+
+  function renderJoin(){
+    var h = parseInt(hourEl.value, 10);
+    var r = READINGS[h];
+    var dev = Math.abs(r[1] - r[0]);
+    var isOld = h < AUG_HOUR;
+    var capMw = isOld ? OLD_MW : NEW_MW;
+
+    tsEl.textContent = '2028-03-01 ' + pad(h) + ':00:00';
+
+    rowEls.forEach(function(el){
+      el.classList.toggle('matched', parseInt(el.dataset.cap,10) === capMw);
+    });
+
+    devEl.textContent = dev.toLocaleString('en-GB');
+    capEl.textContent = capMw + ' MW';
+    capEl.className = 'stat-value ' + (isOld ? 'warn' : 'ok');
+    capNote.textContent = isOld ? 'pre-augmentation row' : 'post-augmentation row';
+
+    var good = 1 - dev / (capMw * 1000);
+    // The bug: one overwritten row means today's capacity applied to all history.
+    var bad  = 1 - dev / (NEW_MW * 1000);
+    goodEl.textContent = good.toFixed(4);
+    badEl.textContent  = bad.toFixed(4);
+
+    if(isOld){
+      badEl.className = 'stat-value bad';
+      badNote.textContent = 'overstated by ' + (bad - good).toFixed(4);
+    } else {
+      badEl.className = 'stat-value';
+      badNote.textContent = 'same — after the change';
+    }
+  }
+  hourEl.addEventListener('input', renderJoin);
+  renderJoin();
+
+  /* ---------------- Stage 4: partition pruning ---------------- */
+  var MONTHS = [], SIZES = [];
+  (function seed(){
+    // 24 monthly micro-partition groups across 2024-2025, deterministic sizes.
+    for(var i = 0; i < 24; i++){
+      var y = 2024 + Math.floor(i / 12), m = (i % 12) + 1;
+      MONTHS.push(y + '-' + pad(m));
+      SIZES.push(180 + ((i * 37) % 90));  // 180-269 MB
+    }
+  })();
+
+  var fromEl  = document.getElementById('from-m');
+  var toEl    = document.getElementById('to-m');
+  var trapEl  = document.getElementById('trap');
+  var gridEl  = document.getElementById('parts');
+  var cntEl   = document.getElementById('p-count');
+  var pctEl   = document.getElementById('p-pct');
+  var bytesEl = document.getElementById('p-bytes');
+  var totalEl = document.getElementById('p-total');
+  var costEl  = document.getElementById('p-cost');
+  var trapMsg = document.getElementById('trap-note');
+  var multEl  = document.getElementById('trap-mult');
+
+  var TOTAL_MB = SIZES.reduce(function(a,b){ return a+b; }, 0);
+  totalEl.textContent = 'of ' + (TOTAL_MB / 1024).toFixed(2) + ' GB total';
+
+  MONTHS.forEach(function(label, i){
+    [fromEl, toEl].forEach(function(sel){
+      var o = document.createElement('option');
+      o.value = String(i); o.textContent = label;
+      sel.appendChild(o);
+    });
+    var cell = document.createElement('div');
+    cell.className = 'part';
+    cell.innerHTML = '<span class="part-label">' + label + '</span>' +
+                     '<span class="part-size">' + SIZES[i] + ' MB</span>';
+    gridEl.appendChild(cell);
+  });
+  fromEl.value = '17';   // 2025-06
+  toEl.value   = '18';   // 2025-07
+
+  var cells = Array.prototype.slice.call(gridEl.children);
+
+  function renderPrune(){
+    var lo = parseInt(fromEl.value, 10), hi = parseInt(toEl.value, 10);
+    if(lo > hi){ hi = lo; toEl.value = String(hi); }   // keep the range coherent
+    var trapped = trapEl.checked;
+
+    var scannedMb = 0, scannedN = 0, inRangeMb = 0;
+    cells.forEach(function(cell, i){
+      var inRange = i >= lo && i <= hi;
+      var scanned = trapped || inRange;
+      cell.classList.toggle('scanned', scanned && !trapped);
+      cell.classList.toggle('forced',  trapped);
+      cell.classList.toggle('pruned',  !scanned);
+      if(inRange){ inRangeMb += SIZES[i]; }
+      if(scanned){ scannedMb += SIZES[i]; scannedN++; }
+    });
+    // What the trap costs: full scan vs. the pruned scan it should have been.
+    multEl.textContent = (TOTAL_MB / inRangeMb).toFixed(1) + '×';
+
+    var pct = Math.round((1 - scannedN / cells.length) * 100);
+    cntEl.textContent   = scannedN + ' / ' + cells.length;
+    pctEl.textContent   = trapped ? 'nothing pruned' : pct + '% pruned';
+    bytesEl.textContent = (scannedMb / 1024).toFixed(2) + ' GB';
+    costEl.textContent  = (scannedMb / TOTAL_MB).toFixed(2) + '×';
+
+    var cls = trapped ? 'bad' : 'ok';
+    cntEl.className   = 'stat-value ' + cls;
+    bytesEl.className = 'stat-value ' + cls;
+    costEl.className  = 'stat-value ' + cls;
+    trapMsg.hidden    = !trapped;
+  }
+
+  [fromEl, toEl, trapEl].forEach(function(el){
+    el.addEventListener('change', renderPrune);
+  });
+  renderPrune();
+})();
+</script>
+</body>
+</html>
